@@ -6,19 +6,8 @@ import styles from "../styles/Home.module.css";
 
 export default function Home() {
   const auth = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
-    if (email === "" || password === "") {
-      alert("Fill out your username and password");
-    } else {
-      e.preventDefault();
-      auth.signinWithEmail(email, password);
-      setEmail("");
-      setPassword("");
-    }
-  };
+  const [email, setEmail] = useState(false);
+  const [password, setPassword] = useState(false);
   return (
     <div>
       <Head>
@@ -65,7 +54,6 @@ export default function Home() {
                       type="email"
                       autoComplete="email"
                       required
-                      value={email}
                       onInput={(e) => {
                         setEmail(e.target.value);
                       }}
@@ -88,7 +76,6 @@ export default function Home() {
                       type="password"
                       autoComplete="current-password"
                       required
-                      value={password}
                       onInput={(e) => {
                         setPassword(e.target.value);
                       }}
@@ -127,7 +114,7 @@ export default function Home() {
                   {auth?.user ? (
                     <button
                       type="submit"
-                      onClick={(e) => auth.signout(e)}
+                      onClick={(e) => auth.signout()}
                       className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       Logout
@@ -135,10 +122,15 @@ export default function Home() {
                   ) : (
                     <button
                       type="submit"
-                      onClick={handleSubmit}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        auth.signUpWithEmailPassword(email, password);
+                        setEmail(false);
+                        setPassword(false);
+                      }}
                       className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                      Sign in
+                      Sign up
                     </button>
                   )}
                 </div>
@@ -197,7 +189,7 @@ export default function Home() {
 
                   <div>
                     <button
-                      onClick={(e) => auth.signinWithGitHub("/dashboard")}
+                      onClick={(e) => auth.signinWithGitHub()}
                       className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
                     >
                       <span className="sr-only">Sign in with GitHub</span>
