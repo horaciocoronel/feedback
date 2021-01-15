@@ -229,7 +229,7 @@ const Dashboard = () => {
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-gray-800">
-                    {user?.name ? user.name : user.email}
+                    {user?.name ? user.name : ""}
                   </div>
                   <div className="text-sm font-medium text-gray-500">
                     {user?.name ? user.email : ""}
@@ -301,8 +301,7 @@ const Dashboard = () => {
                     You haven't added any sites yet
                   </h2>
                   <p className="mb-4 text-sm text-gray-600">
-                    Welcome {user.name ? user.name : user.email}! Let's get
-                    started.
+                    Welcome {user?.name ? user.name : ""}! Let's get started.
                   </p>
                   <button
                     type="button"
